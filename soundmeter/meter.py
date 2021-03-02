@@ -145,7 +145,7 @@ class Meter(object):
 
     def meter(self, rms, dBFS):
         if not self._graceful:
-            sys.stdout.write('\r%10d %10d ' % (rms, dBFS))
+            sys.stdout.write('\r%10d %10d %10d' % (rms, dBFS, dBFS+65+53)) #Empirical dB SPL adjustment
             sys.stdout.flush()
             if self.log:
                 self.logging.info(rms)
