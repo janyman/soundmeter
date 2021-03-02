@@ -10,6 +10,7 @@ import subprocess
 import sys
 import time
 import warnings
+import math
 if six.PY2:
     try:
         from cStringIO import StringIO
@@ -124,6 +125,8 @@ class Meter(object):
                 record.send(True)  # Record stream `AUDIO_SEGMENT_LENGTH' long
                 data = self.output.getvalue()
                 segment = pydub.AudioSegment(data)
+                # The mic (SPH0645) samples have a very high DC offset, which must be removed
+                segment=segment.remove_dc_offset()
                 rms = segment.rms
                 if self.collect:
                     self.collect_rms(rms)

@@ -16,8 +16,8 @@ USER_SCRIPT = os.path.join(USER_DIR, 'trigger.sh')
 class Config(object):
 
     FRAMES_PER_BUFFER = 2048
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 2
+    FORMAT = pyaudio.paInt32 #i2s mic SPH0645
+    CHANNELS = 1 #i2s mic SPH0645
     INPUT_DEVICE_INDEX = None
     RATE = 44100
     AUDIO_SEGMENT_LENGTH = 0.5
