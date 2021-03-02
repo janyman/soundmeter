@@ -127,10 +127,11 @@ class Meter(object):
                 segment = pydub.AudioSegment(data)
                 # The mic (SPH0645) samples have a very high DC offset, which must be removed
                 segment=segment.remove_dc_offset()
+                dBFS=segment.dBFS
                 rms = segment.rms
                 if self.collect:
                     self.collect_rms(rms)
-                self.meter(rms)
+                self.meter(rms, dBFS)
                 if self.action:
                     if self.is_triggered(rms):
                         self.execute(rms)
@@ -142,9 +143,9 @@ class Meter(object):
             self.is_running = False
             self.stop()
 
-    def meter(self, rms):
+    def meter(self, rms, dBFS):
         if not self._graceful:
-            sys.stdout.write('\r%10d  ' % rms)
+            sys.stdout.write('\r%10d %10d ' % (rms, dBFS))
             sys.stdout.flush()
             if self.log:
                 self.logging.info(rms)
